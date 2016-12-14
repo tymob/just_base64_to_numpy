@@ -14,9 +14,14 @@ data = f.read()
 convert image base64 -> cv2(mat)
 ''''
 
+# if your data isn't base64 you may use ...
+#base64.encode
+#base64.encodestring
+#http://docs.python.jp/2/library/base64.html
+
 cv_train_image = []
 img = base64.b64decode(data)#base64 decode
-npimg = np.fromstring(img, dtype=np.uint8) #binary?
+npimg = np.fromstring(img, dtype=np.uint8)
 source = cv2.imdecode(npimg, 1) #convert to cv2(mat format)
 cv2.imwrite("source.jpg",source)#check code.source
 
@@ -25,7 +30,7 @@ edit image for learning
 ''''
 
 res_source= cv2.resize(source, (IMAGE_SIZE, IMAGE_SIZE)) #resize images for learning.
-cv_train_image.append(res_source.flatten().astype(np.float32)/255.0) #flatten images.
+cv_train_image.append(res_source.flatten().astype(np.float32)/255.0) #flatten images. (IMAGE_SIZE,IMAGE_SIZE) -> ((IMAGE_SIZE*IMAGE_SIZE),1)
 np_train_data  = np.asarray(train_image) # convert to array
 print(np_train_data)
 
